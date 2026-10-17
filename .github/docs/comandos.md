@@ -226,3 +226,48 @@ O histórico em grafo mostra o commit de merge e as branches se juntando:
 |/
 * 963cf0b initial commit
 ```
+
+## Git — Fluxo completo de Pull Request via código (feature → develop)
+
+Fluxo passo a passo que fizemos para abrir um PR de verdade pelo terminal.
+
+### 1. Cria a branch nova a partir da develop
+
+```bash
+git switch -c feature/atualiza-readme
+```
+
+### 2. Faz a alteração, salva e commita
+
+```bash
+git add README.md
+git commit -m "docs: adiciona stack, pré-requisitos e seção de contribuição"
+```
+
+### 3. Envia a branch para o seu fork
+
+```bash
+git push -u origin feature/atualiza-readme
+```
+
+### 4. Abre o Pull Request (feature → develop)
+
+```bash
+gh pr create \
+  --repo LucasCastro100/b7cicd-example \
+  --base develop \
+  --head feature/atualiza-readme \
+  --title "docs: adiciona stack, pré-requisitos e seção de contribuição" \
+  --body "Adiciona ao README as seções de Stack, Pré-requisitos, Estrutura do projeto e Contribuindo."
+```
+
+| Parâmetro | Valor | Significado |
+|---|---|---|
+| `--repo` | `LucasCastro100/...` | Seu fork (é lá que estão as duas branches) |
+| `--base` | `develop` | Branch de destino (para onde vai o merge) |
+| `--head` | `feature/...` | Branch de origem (de onde vem o código) |
+| `--title` | texto | Título do PR |
+| `--body` | texto | Descrição do PR |
+
+> O PR fica no seu fork. Pra ele ir pro repo original do curso (`suporteb7web`),
+> use `--repo suporteb7web/b7cicd-example --head LucasCastro100:feature/atualiza-readme`.
