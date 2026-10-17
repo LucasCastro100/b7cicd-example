@@ -271,3 +271,85 @@ gh pr create \
 
 > O PR fica no seu fork. Pra ele ir pro repo original do curso (`suporteb7web`),
 > use `--repo suporteb7web/b7cicd-example --head LucasCastro100:feature/atualiza-readme`.
+
+## Git — Descrição do PR com checklist (arquivo .md)
+
+O GitHub renderiza **listas de tarefa** (`- [ ]`) como **caixinhas clicáveis** na tela do PR.
+Para usar um arquivo `.md` como descrição, use `--body-file` (atalho `-F`):
+
+| Comando | O que faz |
+|---|---|
+| `gh pr create --body-file arquivo.md` | Usa o arquivo `.md` como descrição do PR |
+| `gh pr create -F arquivo.md` | Atalho de `--body-file` |
+| `gh pr create --body-file -` | Lê a descrição da entrada padrão (fecha com `Ctrl+D`) |
+| `gh pr edit 4 --body-file arquivo.md` | **Edita** a descrição de um PR já aberto |
+
+### Exemplo: criar/editar PR com checklist
+
+```bash
+# 1. Cria o arquivo de descrição com as caixinhas
+cat > descricao-pr.md <<'EOF'
+## Descrição
+- Item que foi feito
+
+## Checklist de revisão
+- [ ] Rodar os testes (`pnpm test`)
+- [ ] Rodar o lint (`pnpm run lint`)
+- [ ] Build de produção OK (`pnpm build`)
+EOF
+
+# 2. Cria o PR usando o arquivo
+gh pr create --base main --head develop \
+  --title "release: sincroniza develop com a main" \
+  --body-file descricao-pr.md
+
+# 3. Para editar a descrição depois
+gh pr edit 4 --body-file descricao-pr.md
+```
+
+O `- [ ]` vira caixinha desmarcada e o `- [x]` vira caixinha **marcada**.
+
+### Gerar a descrição automaticamente dos commits
+
+```bash
+gh pr create --base main --head develop --title "release" \
+  --body-file <(git log origin/main..HEAD --pretty='- %s')
+```
+
+## Git — Regra: sempre usar Pull Request
+
+**Nunca fazer merge direto** (`git switch main && git merge develop`). O fluxo correto
+é sempre abrir um PR, para que os testes/CI rodem e fique registrado o histórico:
+
+```bash
+# Errado (merge direto)
+git switch main
+git merge develop      # ❌ não faça isso
+
+# Certo (via PR)
+git push origin develop
+gh pr create --repo SEU_USUARIO/b7cicd-example \
+  --base main --head develop \
+  --title "release: sincroniza develop com a main" \
+  --body-file descricao-pr.md   # ✅ sempre assim
+```
+
+## Git — Fluxo release: develop → main via PR
+
+```bash
+# 1. Garante que a develop está tudo certo e atualizada
+git switch develop
+git pull
+
+# 2. Envia a develop pro remoto
+git push origin develop
+
+# 3. Abre o PR develop -> main
+gh pr create --repo LucasCastro100/b7cicd-example \
+  --base main --head develop \
+  --title "release: sincroniza develop com a main" \
+  --body-file .github/docs/pr-release-checklist.md
+```
+
+> Se a `main` local estiver defasada, resete-a para o remoto antes de qualquer coisa:
+> `git switch main && git reset --hard origin/main`
