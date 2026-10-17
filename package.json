@@ -1,10 +1,17 @@
 {
-  "name": "b7cicd-example",
+  "name": "cicd-example",
   "version": "1.0.0",
   "description": "API de tarefas usada como projeto base do curso Fundamentos de CI/CD",
   "main": "dist/index.js",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.9.0",
+      "onFail": "download"
+    }
+  },
   "scripts": {
-    "start": "npm run build && node dist/index.js",
+    "start": "pnpm build && node dist/index.js",
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "test": "jest --forceExit",
@@ -21,8 +28,8 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^20.11.5",
     "@types/supertest": "^6.0.2",
-    "@typescript-eslint/eslint-plugin": "^7.0.1",
-    "@typescript-eslint/parser": "^7.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.56.0",
     "jest": "^29.7.0",
     "supertest": "^6.3.4",
