@@ -1,4 +1,4 @@
-# b7cicd-example
+# cicd-example
 
 API REST de tarefas em **Express + TypeScript** usada como projeto base do curso **Fundamentos de CI/CD**.
 
@@ -9,16 +9,16 @@ API REST de tarefas em **Express + TypeScript** usada como projeto base do curso
 ```bash
 # 1. Clone o repositório
 git clone <url-do-repo>
-cd b7cicd-example
+cd cicd-example
 
 # 2. Instale as dependências
-npm install
+pnpm install
 
 # 3. Copie o arquivo de variáveis de ambiente
 cp .env.example .env
 
 # 4. Suba em modo de desenvolvimento (com hot reload)
-npm run dev
+pnpm dev
 ```
 
 A API ficará disponível em `http://localhost:3000`.
@@ -29,12 +29,12 @@ A API ficará disponível em `http://localhost:3000`.
 
 | Comando             | O que faz                                      |
 |---------------------|------------------------------------------------|
-| `npm start`         | Compila e sobe a aplicação                     |
-| `npm run dev`       | Sobe em modo watch (sem precisar compilar)     |
-| `npm run build`     | Compila o TypeScript para a pasta `dist/`      |
-| `npm test`          | Roda os testes                                 |
-| `npm run lint`      | Verifica o código com ESLint                   |
-| `npm run typecheck` | Verifica os tipos sem compilar (`tsc --noEmit`)|
+| `pnpm start`        | Compila e sobe a aplicação                     |
+| `pnpm dev`          | Sobe em modo watch (sem precisar compilar)     |
+| `pnpm build`        | Compila o TypeScript para a pasta `dist/`      |
+| `pnpm test`         | Roda os testes                                 |
+| `pnpm lint`         | Verifica o código com ESLint                   |
+| `pnpm typecheck`    | Verifica os tipos sem compilar (`tsc --noEmit`)|
 
 ---
 
@@ -111,3 +111,40 @@ Remove uma tarefa.
 ```json
 { "error": "Task not found" }
 ```
+
+---
+
+## Stack
+
+- **Node.js** + **TypeScript**
+- **Express** — framework HTTP
+- **pnpm** — gerenciador de pacotes
+- **Jest** + **Supertest** — testes
+- **ESLint** — lint do código
+
+## Pré-requisitos
+
+| Ferramenta | Versão mínima |
+|---|---|
+| Node.js | 20.x |
+| pnpm | 11.x |
+
+## Estrutura do projeto
+
+```
+cicd-example/
+├── src/            # código-fonte da API
+├── tests/          # testes automatizados
+├── dist/           # saída da compilação (gerada)
+├── COMANDOS.md     # cheatsheet de comandos
+└── package.json
+```
+
+## Contribuindo
+
+1. Crie uma branch a partir da `develop`:
+   ```bash
+   git switch -c feature/minha-feature
+   ```
+2. Faça as alterações e rode os testes (`pnpm test`) e o lint (`pnpm lint`).
+3. Envie a branch e abra um Pull Request para a `develop`.
