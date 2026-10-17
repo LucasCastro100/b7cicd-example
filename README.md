@@ -111,3 +111,40 @@ Remove uma tarefa.
 ```json
 { "error": "Task not found" }
 ```
+
+---
+
+## Stack
+
+- **Node.js** + **TypeScript**
+- **Express** — framework HTTP
+- **pnpm** — gerenciador de pacotes
+- **Jest** + **Supertest** — testes
+- **ESLint** — lint do código
+
+## Pré-requisitos
+
+| Ferramenta | Versão mínima |
+|---|---|
+| Node.js | 20.x |
+| pnpm | 11.x |
+
+## Estrutura do projeto
+
+```
+cicd-example/
+├── src/            # código-fonte da API
+├── tests/          # testes automatizados
+├── dist/           # saída da compilação (gerada)
+├── COMANDOS.md     # cheatsheet de comandos
+└── package.json
+```
+
+## Contribuindo
+
+1. Crie uma branch a partir da `develop`:
+   ```bash
+   git switch -c feature/minha-feature
+   ```
+2. Faça as alterações e rode os testes (`pnpm test`) e o lint (`pnpm lint`).
+3. Envie a branch e abra um Pull Request para a `develop`.
