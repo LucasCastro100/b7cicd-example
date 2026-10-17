@@ -174,3 +174,55 @@ git pull
 git merge feature/minha-feature
 git push
 ```
+
+## Git — Fluxo real usado no projeto (enviar branch e mesclar na develop)
+
+Passo a passo do que foi feito para enviar a `develop` e mesclar a `feature/test` nela.
+
+### 1. Ver o estado das branches
+
+```bash
+git branch -vv          # branches locais + vínculo com o remoto
+git branch -r           # branches remotas
+git log develop --oneline -3   # últimos commits da develop
+```
+
+### 2. Enviar a `develop` para o seu fork
+
+```bash
+git push -u origin develop
+```
+
+O `-u` vincula a branch local à remota — depois disso, nos próximos pushes basta `git push`.
+
+### 3. Mesclar a `feature/test` na `develop`
+
+```bash
+git switch develop
+git merge feature/test --no-ff -m "merge: traz alterações da feature/test para develop"
+git push
+```
+
+| Comando | O que faz |
+|---|---|
+| `git switch develop` | Troca para a branch `develop` |
+| `git merge feature/test --no-ff` | Mescla a `feature/test` na atual, forçando um commit de merge |
+| `-m "..."` | Define a mensagem do commit de merge |
+| `git push` | Envia a `develop` atualizada para o seu fork |
+
+### 4. Ver o histórico em grafo
+
+```bash
+git log --oneline --graph --all -8
+```
+
+O histórico em grafo mostra o commit de merge e as branches se juntando:
+
+```
+*   7f50880 merge: traz alterações da feature/test para develop
+|\
+| * eaa36cd docs: adiciona comandos...
+| * 08cdecd feat: subindo arquivos básicos...
+|/
+* 963cf0b initial commit
+```
