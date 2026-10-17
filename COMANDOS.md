@@ -29,6 +29,10 @@
 |---|---|
 | `git branch` | Lista as branches locais |
 | `git branch -a` | Lista as branches locais e remotas |
+| `git branch -r` | Lista só as branches remotas |
+| `git branch -v` | Lista mostrando o último commit de cada branch |
+| `git branch -vv` | Lista mostrando também o vínculo com o remoto (upstream) |
+| `git branch --merged` | Lista as branches já mergeadas na branch atual |
 | `git switch -c nome-da-branch` | Cria **e** troca para a nova branch |
 | `git checkout -b nome-da-branch` | Forma antiga de criar e trocar de branch |
 | `git branch nome-da-branch` | Cria a branch **sem** trocar para ela |
@@ -67,6 +71,89 @@
 | `git reset --hard HEAD~1` | Desfaz o último commit e descarta as alterações |
 | `git stash` | Guarda alterações temporariamente |
 | `git stash pop` | Recupera as alterações guardadas com o stash |
+
+## Git — Remotes (repositórios remotos)
+
+| Comando | O que faz |
+|---|---|
+| `git remote -v` | Lista os remotes configurados (fetch e push) |
+| `git remote add origin url-do-repo` | Adiciona um remote chamado `origin` |
+| `git remote rename origin upstream` | Renomeia o remote `origin` para `upstream` |
+| `git remote set-url origin nova-url` | Troca a URL de um remote |
+| `git remote remove nome-do-remote` | Remove um remote |
+| `git fetch upstream` | Baixa as atualizações do repo original (sem mesclar) |
+| `git push origin --all` | Envia **todas** as branches locais |
+| `git push origin --tags` | Envia todas as tags |
+
+### Diferença entre `origin` e `upstream`
+
+| Remote | Aponta para | Serve pra |
+|---|---|---|
+| `origin` | Seu fork (`LucasCastro100/b7cicd-example`) | Enviar seu código (push) ✅ |
+| `upstream` | Repo original (`suporteb7web/b7cicd-example`) | Puxar atualizações do curso |
+
+## Git — Fork (contribuir num repo que você não tem permissão)
+
+Clonar só precisa de **leitura**. Dar **push** exige permissão de **escrita**.
+Se você não for colaborador, faça um **fork** (cópia na sua conta) e faça push lá.
+
+```bash
+# 1. Cria o fork na sua conta (precisa do gh autenticado)
+gh repo fork suporteb7web/b7cicd-example --clone=false
+
+# 2. Ajusta os remotes: origin = seu fork, upstream = repo original
+git remote rename origin upstream
+git remote add origin https://github.com/LucasCastro100/b7cicd-example.git
+
+# 3. Confere se ficou certo
+git remote -v
+
+# 4. Envia a branch para o seu fork
+git push -u origin feature/test
+```
+
+Sem o `gh`, faça o fork pelo site (botão **Fork**) e depois só troque a URL:
+
+```bash
+git remote set-url origin https://github.com/SEU_USUARIO/b7cicd-example.git
+git push -u origin feature/test
+```
+
+## Git — Pull Request (GitHub CLI)
+
+O `gh` é a ferramenta oficial do GitHub no terminal. Instale e autentique:
+
+```bash
+brew install gh
+gh auth login      # só na primeira vez
+gh auth status     # confere a conta logada
+```
+
+| Comando | O que faz |
+|---|---|
+| `gh pr create` | Cria o pull request (modo interativo) |
+| `gh pr create --base main --head usuario:branch` | Cria o PR direto com parâmetros |
+| `gh pr list` | Lista os PRs abertos |
+| `gh pr view` | Mostra o PR da branch atual |
+| `gh pr view --web` | Abre o PR no navegador |
+| `gh pr checks` | Mostra o status dos testes/CI do PR |
+| `gh pr merge` | Faz o merge do PR |
+| `gh pr merge --squash --delete-branch` | Merge com squash e apaga a branch |
+| `gh pr close` | Fecha o PR sem fazer merge |
+| `gh repo fork repo-do-upstream` | Cria um fork na sua conta |
+
+### Exemplo de PR do seu fork para o repo original
+
+```bash
+gh pr create \
+  --repo suporteb7web/b7cicd-example \
+  --base main \
+  --head LucasCastro100:feature/test \
+  --title "feat: arquivos básicos de alteração" \
+  --body "Descrição do que foi feito"
+```
+
+O `--head LucasCastro100:feature/test` diz que o PR vem **do seu fork**.
 
 ## Git — Fluxo comum (criar branch, commitar e mergear)
 
