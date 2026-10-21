@@ -2,11 +2,31 @@ name: CI
 
 # INICIANDO O WORKFLOW DE INTEGRAÇÃO CONTÍNUA (CI) PARA O REPOSITÓRIO
 on:
-  push:
-    branches: [main, develop]
+  # push:
+  #   branches: 
+  #     - main
+  #     - develop
 
   pull_request:
-    branches: [develop]
+    branches: 
+      - develop
+  
+  # O workflow será executado apenas quando houver alterações nos arquivos dentro das pastas src e tests
+    paths: 
+      - 'src/**'
+      - 'tests/**'
+      - '.github/workflows/**'
+      - 'package.json'
+      - 'tsconfig.json'
+
+  # Ignorando alterações em arquivos que não afetam a execução dos testes e build
+    # paths-ignore:
+    #   - 'README.md'
+    #   - 'docs/**'
+    #   - 'scripts/**'
+    #   - 'tests/data/**'
+    #   - 'tests/mocks/**'
+
 
 jobs:
   # AQUI VAI OS JOB, QUE SERÁ EXECUTADO EM UMA MÁQUINA VIRTUAL UBUNTU
