@@ -148,3 +148,6 @@ cicd-example/
    ```
 2. Faça as alterações e rode os testes (`pnpm test`) e o lint (`pnpm lint`).
 3. Envie a branch e abra um Pull Request para a `develop`.
+
+
+## reamd v2
